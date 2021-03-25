@@ -1,5 +1,5 @@
 # planning
-This repo is used to help planning the `forum` repo under the same organization.
+This repo is used to help planning the `OurTieba` repo under the same organization.
 
 ## Contributing
 Outside contributors: do NOT contribute here.
