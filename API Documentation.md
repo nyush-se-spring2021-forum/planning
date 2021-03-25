@@ -161,6 +161,8 @@ Request body format:
 Response data format:
 - Int `postid`: the postID of the newly created post.
 
+**TODO**: Should we have a request ID thing to prevent double clicking?
+
 ### POST `/api/createreply`
 Create a reply.
 
@@ -178,6 +180,59 @@ Response data format:
 - String `content`: contents of the reply, sanitized
 - Int `timecreated`: a UNIX timestamp of when this post was made.
 
+**TODO**: Should we have a request ID thing to prevent double clicking?
+
+### POST `/api/deletepost`
+Delete a post and all its replies, as well as all votes on the post and the replies.
+
+Should the user be not logged in or lack permissions, a 403 should be returned.
+
+Request body format:
+- Int `postid`
+
+Response data format:
+- None
+
+*Even with empty response* ***data,*** *a table should still be returned, namely `{"success":true, "data":{}}`.*
+
+### POST `/api/deletereply`
+Delete a reply and all votes on it.
+
+Should the user be not logged in or lack permissions, a 403 should be returned.
+
+Request body format:
+- Int `replyid`
+
+Response data format:
+- None
+
+### POST `/api/votes/post`
+Upvote, downvote, cancel upvote or cancel downvote on a post.
+
+- When a user is not logged in: return 403.
+- When a user upvote on a post that they have already upvoted, downvote on a post that they have already downvoted, or cancel up/downvote that they have not up/downvoted yet: return 202.
+- When a user downvote on a post that they have upvoted or vice versa: return 200, cancel their previous vote, apply their new vote.
+- When a user upvote/downvote on a post that they neither upvoted nor downvoted: return 200, apply their vote.
+
+Request body format:
+- Int `postid`
+- String `action`: one of the following: `upvote`, `downvote`, `cancelupvote`, `canceldownvote`.
+
+Response body format (for both 200 and 202):
+- Boolean `userupvoted`: After the action, whether this user has an upvote on this post.
+- Boolean `userdownvoted`: After the action, whether this user has a downvote on this post.
+
+### POST `/api/votes/reply`
+Upvote, downvote, cancel upvote or cancel downvote on a reply.
+
+Request body format:
+- Int `replyid`
+- String `action`: one of the following: `upvote`, `downvote`, `cancelupvote`, `canceldownvote`.
+
+Response body format (for both 200 and 202):
+- Boolean `userupvoted`: After the action, whether this user has an upvote on this reply.
+- Boolean `userdownvoted`: After the action, whether this user has a downvote on this reply.
+
 ## Wish list
 - [X] GET "hot news"
 - [X] GET main page (list of boards)
@@ -189,10 +244,10 @@ Response data format:
 - [X] GET search board (implemented as a part of "list of boards")
 - [X] POST post
 - [X] POST comment/reply
-- [ ] POST delete post
-- [ ] POST delete reply
-- [ ] POST like/dislike/unlike/undislike post
-- [ ] POST like/dislike/unlike/undislike comment
+- [X] POST delete post
+- [X] POST delete reply
+- [X] POST like/dislike/unlike/undislike post
+- [X] POST like/dislike/unlike/undislike comment
 - [X] GET user profile
 - [ ] POST edit user profile
 - [ ] POST report
