@@ -1,7 +1,7 @@
-# planning
+# Planning
 This repo is used to help planning the `OurTieba` repo under the same organization.
 
-## Working Documentation
+## Progress report and API Documentation
 
 https://docs.google.com/document/d/1nNT2q3obi976IqOgZZ8We5eEMXtVOLCtFUWhoma-eM8/edit?usp=sharing
 
